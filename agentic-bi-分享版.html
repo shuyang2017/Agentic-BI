@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic BI — AI-Ready 数据平台演进全解析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080F1E;
+  --surface: #0D1A2E;
+  --surface-2: #132234;
+  --border: #1A2E48;
+  --border-l: #243F5E;
+  --t1: #E4EDF7;
+  --t2: #7B9BBF;
+  --t3: #3E5A78;
+  --amber: #E8A44A;
+  --amber-d: rgba(232,164,74,0.12);
+  --teal: #4ECDC4;
+  --teal-d: rgba(78,205,196,0.10);
+  --coral: #E07A5F;
+  --coral-d: rgba(224,122,95,0.10);
+  --green: #7EC8A0;
+  --green-d: rgba(126,200,160,0.10);
+  --fd: 'DM Serif Display', Georgia, serif;
+  --fs: 'DM Sans', system-ui, sans-serif;
+  --fm: 'JetBrains Mono', monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--fs);font-size:15px;line-height:1.7;overflow-x:hidden}
+
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(26,46,72,0.4) 1px,transparent 1px),linear-gradient(90deg,rgba(26,46,72,0.4) 1px,transparent 1px);
+  background-size:56px 56px;pointer-events:none;z-index:0
+}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(8,15,30,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;gap:0;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+.nav-logo{font-family:var(--fm);font-size:11px;color:var(--amber);letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;padding:.9rem 1.25rem .9rem 0;border-right:1px solid var(--border);margin-right:1rem;flex-shrink:0}
+nav a{font-size:11px;color:var(--t2);text-decoration:none;padding:.9rem .65rem;white-space:nowrap;transition:color .2s;font-family:var(--fm);letter-spacing:.02em}
+nav a:hover{color:var(--amber)}
+
+/* LAYOUT */
+.wrap{max-width:1060px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
+section{padding:5rem 0}
+section+section{border-top:1px solid var(--border)}
+
+/* HERO */
+.hero{padding:7rem 0 5rem;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(232,164,74,0.07) 0%,transparent 65%);right:-120px;top:50%;transform:translateY(-50%);pointer-events:none}
+.eyebrow{font-family:var(--fm);font-size:11px;letter-spacing:.2em;color:var(--amber);text-transform:uppercase;margin-bottom:1.75rem}
+.hero-title{font-family:var(--fd);font-size:clamp(2.4rem,5.5vw,4.5rem);line-height:1.08;color:var(--t1);max-width:820px;margin-bottom:2rem}
+.hero-title em{font-style:italic;color:var(--amber)}
+.hero-q{font-size:1.1rem;color:var(--t2);max-width:580px;border-left:3px solid var(--amber);padding-left:1.5rem;margin-bottom:2.5rem;font-style:italic;line-height:1.65}
+.hero-a{font-size:.95rem;color:var(--t1);max-width:680px;line-height:1.8}
+
+/* SECTION HEADER */
+.sh-eye{font-family:var(--fm);font-size:11px;letter-spacing:.18em;color:var(--amber);text-transform:uppercase;margin-bottom:.65rem}
+.sh-title{font-family:var(--fd);font-size:clamp(1.7rem,3vw,2.5rem);color:var(--t1);margin-bottom:.75rem;line-height:1.15}
+.sh-desc{font-size:.95rem;color:var(--t2);max-width:580px;margin-bottom:2.5rem}
+
+/* PHASE CARDS */
+.phase-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:1.5rem}
+.pc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:2rem;position:relative;overflow:hidden}
+.pc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--amber)}
+.pc-n{font-family:var(--fm);font-size:3rem;font-weight:600;color:var(--amber);opacity:.25;line-height:1;margin-bottom:.75rem}
+.pc-title{font-size:.95rem;font-weight:600;color:var(--t1);margin-bottom:.375rem}
+.pc-desc{font-size:.825rem;color:var(--t2)}
+
+/* STAT CARDS */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2.5rem}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.5rem}
+.sc-n{font-family:var(--fm);font-size:2rem;font-weight:600;color:var(--amber);line-height:1;margin-bottom:.4rem}
+.sc-l{font-size:.78rem;color:var(--t2)}
+
+/* LADDER */
+.ladder{display:flex;flex-direction:column;gap:0}
+.li{display:flex;align-items:flex-start;gap:1.25rem;padding:1.1rem 1.5rem;border:1px solid var(--border);border-bottom:none;background:var(--surface)}
+.li:first-child{border-radius:8px 8px 0 0}
+.li:last-child{border-bottom:1px solid var(--border);border-radius:0 0 8px 8px;background:var(--surface-2)}
+.li:last-child .li-tag{background:var(--amber);color:#080F1E;font-weight:600}
+.li-step{font-family:var(--fm);font-size:10px;color:var(--t3);letter-spacing:.1em;min-width:52px;padding-top:3px}
+.li-tag{font-family:var(--fm);font-size:10px;background:var(--surface-2);color:var(--t2);padding:2px 8px;border-radius:4px;white-space:nowrap;align-self:flex-start;margin-top:1px}
+.li-name{font-weight:600;font-size:.875rem;margin-bottom:.2rem}
+.li-desc{font-size:.8rem;color:var(--t2)}
+
+/* DUAL PLANE */
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
+.dp{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.75rem}
+.dp.sem{border-top:3px solid var(--teal)}
+.dp.dat{border-top:3px solid var(--amber)}
+.dp-title{font-family:var(--fm);font-size:11px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.25rem}
+.dp.sem .dp-title{color:var(--teal)}
+.dp.dat .dp-title{color:var(--amber)}
+.dp-item{display:flex;align-items:flex-start;gap:.75rem;padding:.5rem 0;font-size:.85rem;color:var(--t2);border-bottom:1px solid var(--border)}
+.dp-item:last-child{border-bottom:none}
+.dp-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:.55rem}
+.dp.sem .dp-dot{background:var(--teal)}
+.dp.dat .dp-dot{background:var(--amber)}
+
+/* LAYER TOWER */
+.tower{display:flex;flex-direction:column;gap:3px;max-width:680px}
+.tl{display:flex;align-items:center;gap:1.5rem;padding:.9rem 1.5rem;border-radius:6px}
+.tl1{background:rgba(232,164,74,.16);border:1px solid rgba(232,164,74,.3)}
+.tl2{background:rgba(78,205,196,.11);border:1px solid rgba(78,205,196,.22)}
+.tl3{background:rgba(126,200,160,.09);border:1px solid rgba(126,200,160,.18)}
+.tl4{background:rgba(232,164,74,.07);border:1px solid rgba(232,164,74,.14)}
+.tl5{background:rgba(78,205,196,.05);border:1px solid rgba(78,205,196,.12)}
+.tl-id{font-family:var(--fm);font-size:12px;font-weight:600;color:var(--amber);min-width:26px}
+.tl-name{font-weight:600;font-size:.875rem;min-width:80px}
+.tl-desc{font-size:.8rem;color:var(--t2)}
+
+/* FLOW DIAGRAM */
+.flow-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:2rem;overflow-x:auto}
+.flow-label{font-family:var(--fm);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--t3);margin-bottom:1.75rem}
+.flow-steps{display:flex;align-items:flex-start;gap:0;min-width:max-content;padding-bottom:.5rem}
+.fs{display:flex;flex-direction:column;align-items:center;gap:.5rem;min-width:86px}
+.fn{width:62px;height:62px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:19px;font-weight:600;background:var(--surface-2);border:1px solid var(--border-l);color:var(--amber);cursor:default;transition:border-color .2s,box-shadow .2s;position:relative}
+.fn:hover{border-color:var(--amber);box-shadow:0 0 18px rgba(232,164,74,.22)}
+.ft{font-size:9.5px;color:var(--t2);text-align:center;max-width:78px;line-height:1.35}
+.fa{width:22px;height:2px;background:var(--border-l);position:relative;flex-shrink:0;align-self:flex-start;margin-top:30px}
+.fa::after{content:'';position:absolute;right:-1px;top:-3px;width:6px;height:6px;border-right:1.5px solid var(--border-l);border-top:1.5px solid var(--border-l);transform:rotate(45deg)}
+
+@keyframes pkt{0%{left:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{left:calc(100% - 5px);opacity:0}}
+.pkt{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--amber);top:-1.5px;animation:pkt 2.8s linear infinite}
+
+/* RAG ENGINES */
+.rag-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.rc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.5rem;text-align:center}
+.rc-letter{font-family:var(--fd);font-size:3.2rem;line-height:1;margin-bottom:.6rem}
+.rc-name{font-family:var(--fm);font-size:10px;letter-spacing:.12em;color:var(--amber);text-transform:uppercase;margin-bottom:.4rem}
+.rc-tag{display:inline-block;font-family:var(--fm);font-size:9px;padding:2px 7px;border-radius:3px;margin-bottom:.6rem}
+.rc-desc{font-size:.78rem;color:var(--t2)}
+
+/* BUDGET BARS */
+.budget{display:flex;flex-direction:column;gap:.7rem;max-width:480px}
+.brow{display:flex;align-items:center;gap:1rem}
+.blabel{font-family:var(--fm);font-size:11px;color:var(--t2);min-width:90px}
+.btrack{flex:1;height:5px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+.bfill{height:100%;border-radius:3px;background:var(--amber)}
+.bpct{font-family:var(--fm);font-size:11px;color:var(--amber);min-width:30px;text-align:right}
+
+/* ROUTING TABLE */
+.rt{width:100%;border-collapse:collapse;font-size:.85rem}
+.rt th{font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);padding:.7rem 1rem;text-align:left;border-bottom:1px solid var(--border)}
+.rt td{padding:.7rem 1rem;border-bottom:1px solid var(--border);color:var(--t2)}
+.rt td:first-child{font-family:var(--fm);font-size:11px;color:var(--amber)}
+.rt tr:last-child td{border-bottom:none}
+
+/* GUARDRAIL STACK */
+.gstack{display:flex;flex-direction:column;gap:3px;max-width:700px}
+.gl{display:flex;align-items:center;gap:1rem;padding:.9rem 1.5rem;border-radius:6px;border-left:4px solid}
+.gl1{background:rgba(224,122,95,.14);border-color:var(--coral)}
+.gl2{background:rgba(224,122,95,.10);border-color:rgba(224,122,95,.65)}
+.gl3{background:rgba(232,164,74,.09);border-color:rgba(232,164,74,.55)}
+.gl4{background:rgba(78,205,196,.08);border-color:rgba(78,205,196,.45)}
+.gl5{background:rgba(126,200,160,.07);border-color:rgba(126,200,160,.4)}
+.gl-n{font-family:var(--fm);font-size:10px;color:var(--t3);min-width:22px}
+.gl-name{font-weight:600;font-size:.85rem;min-width:100px}
+.gl-desc{font-size:.8rem;color:var(--t2);flex:1}
+.badge{margin-left:auto;font-family:var(--fm);font-size:10px;padding:2px 8px;border-radius:3px;white-space:nowrap}
+.b-block{background:rgba(224,122,95,.2);color:var(--coral)}
+.b-heal{background:rgba(78,205,196,.15);color:var(--teal)}
+
+/* MEMORY */
+.mem-row{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.mc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.5rem}
+.mc-icon{font-size:1.4rem;margin-bottom:.75rem}
+.mc-name{font-weight:600;font-size:.9rem;margin-bottom:.2rem}
+.mc-scope{font-family:var(--fm);font-size:10px;color:var(--amber);margin-bottom:.45rem}
+.mc-desc{font-size:.8rem;color:var(--t2)}
+
+/* METRICS */
+.mets{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1rem}
+.met{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.25rem}
+.met-v{font-family:var(--fm);font-size:1.6rem;font-weight:600;line-height:1;margin-bottom:.3rem}
+.met-l{font-size:.75rem;color:var(--t2)}
+.c-good{color:var(--green)}
+.c-warn{color:var(--amber)}
+.c-info{color:var(--teal)}
+
+/* CONCLUSIONS */
+.conc{display:flex;flex-direction:column;gap:.9rem}
+.ci{display:flex;gap:1.5rem;padding:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;align-items:flex-start}
+.ci-n{font-family:var(--fd);font-size:2.2rem;color:var(--amber);opacity:.35;line-height:1;min-width:36px}
+.ci-title{font-weight:600;font-size:.95rem;margin-bottom:.35rem}
+.ci-desc{font-size:.84rem;color:var(--t2);line-height:1.55}
+
+/* QUOTE BLOCK */
+.qblock{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:3rem;text-align:center;margin-top:2.5rem}
+.qblock blockquote{font-family:var(--fd);font-style:italic;font-size:clamp(1.05rem,2.2vw,1.35rem);color:var(--t1);line-height:1.65;max-width:740px;margin:0 auto}
+
+/* ANTHROPIC SUPPLEMENT */
+.anth-card{background:var(--teal-d);border:1px solid rgba(78,205,196,.18);border-radius:8px;padding:1.5rem;margin-top:2rem}
+.anth-badge{display:inline-flex;align-items:center;gap:.35rem;background:rgba(78,205,196,.12);border:1px solid rgba(78,205,196,.22);border-radius:3px;padding:2px 10px;font-family:var(--fm);font-size:10px;color:var(--teal);letter-spacing:.05em;margin-bottom:.9rem}
+.anth-card h4{font-size:.875rem;font-weight:600;color:var(--teal);margin-bottom:.5rem}
+.anth-card p{font-size:.84rem;color:var(--t2);line-height:1.6}
+
+/* INFO BOX */
+.ib{background:var(--amber-d);border:1px solid rgba(232,164,74,.25);border-radius:7px;padding:1.1rem 1.4rem;font-size:.85rem;color:var(--t1);margin-top:1.5rem}
+.ib strong{color:var(--amber)}
+
+/* 2-col helper */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+
+/* SKILL TEMPLATE */
+.skill-tmpl{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:1.5rem;font-family:var(--fm);font-size:.78rem;color:var(--t2);line-height:1.6;overflow-x:auto}
+.skill-tmpl .sk-head{color:var(--amber);font-weight:600}
+.skill-tmpl .sk-h2{color:var(--teal)}
+
+/* SEP */
+.sep{display:flex;align-items:center;gap:1rem;margin:2.5rem 0;color:var(--t3);font-family:var(--fm);font-size:10px;letter-spacing:.15em}
+.sep::before,.sep::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:2rem 0;text-align:center;font-family:var(--fm);font-size:11px;color:var(--t3);position:relative;z-index:1}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .phase-row{grid-template-columns:1fr}
+  .dual{grid-template-columns:1fr}
+  .rag-row{grid-template-columns:repeat(2,1fr)}
+  .mets{grid-template-columns:repeat(2,1fr)}
+  .mem-row{grid-template-columns:1fr}
+  .two{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){.pkt{animation:none!important}}
+
+/* REVEAL ANIMATION */
+.rev{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
+.rev.vis{opacity:1;transform:translateY(0)}
+
+/* Share edition: an editorial reading layout inspired by the companion technical talk. */
+:root{--bg:#f6f8f6;--surface:#fff;--surface-2:#edf4f1;--border:#d9e3df;--border-l:#b7cdc7;--t1:#10201f;--t2:#526d67;--t3:#829791;--amber:#a96813;--amber-d:#fff1d8;--teal:#0c8177;--teal-d:#dff3ed;--coral:#b23a3a;--coral-d:#fce8e8;--green:#197259;--green-d:#e3f2e9;--fd:ui-serif,Georgia,"Songti SC",serif;--fs:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;--fm:ui-monospace,SFMono-Regular,Menlo,monospace}
+body{background:var(--bg);color:var(--t1);font-size:15.5px;line-height:1.82}
+body::before{display:none}
+nav{background:rgba(16,32,31,.96);border-bottom:1px solid rgba(255,255,255,.12);padding:0 max(28px,calc((100vw - 1240px)/2));gap:0}
+.nav-logo{color:#fff;border-right:1px solid rgba(255,255,255,.15);font-weight:700;letter-spacing:.12em}
+nav a{color:#b7cbc7;font-family:var(--fs);font-size:12px;letter-spacing:0;padding:.75rem .65rem}
+nav a:hover{background:#29403d;color:#fff}
+.hero{min-height:580px;display:grid;align-items:end;padding:0;isolation:isolate;background:#10201f}
+.hero::before{content:"";position:absolute;inset:0;background:url("assets/agentic-bi-data-hub.png") center/cover no-repeat;opacity:.9;z-index:-2}
+.hero::after{inset:0;width:auto;height:auto;border-radius:0;right:auto;top:auto;transform:none;background:linear-gradient(90deg,rgba(10,24,23,.95) 0%,rgba(10,24,23,.82) 40%,rgba(10,24,23,.25) 77%,rgba(10,24,23,.18) 100%);z-index:-1}
+.hero .wrap{width:min(1240px,100%);max-width:none;margin:auto;padding:76px 28px 64px}
+.eyebrow{color:#a6d8cc;font-family:var(--fs);font-size:12px;font-weight:600;letter-spacing:.13em;margin-bottom:24px}
+.hero-title{font-size:clamp(38px,5vw,67px);line-height:1.13;max-width:720px;margin-bottom:28px;color:#fff}
+.hero-title em{color:#71d2c2}.hero-q{max-width:630px;border-left:2px solid #55b9aa;padding-left:18px;font-size:18px;color:#e1efeb;margin-bottom:18px}.hero-a{max-width:700px;color:#d9e8e3;font-size:15px}.hero-a strong{color:#a6d8cc}
+.layout{width:min(1240px,100%);margin:auto;padding:42px 28px 86px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:44px}
+.rail{position:sticky;top:76px;align-self:start;border-left:1px solid var(--border);padding-left:18px}.rail p{margin:0 0 13px;color:var(--t2);font-size:12px;line-height:1.6}.rail a{display:block;color:var(--t1);text-decoration:none;font-size:13px;padding:6px 0}.rail a:hover{color:var(--teal)}
+.article{min-width:0}.article section{padding:0;margin:0 0 72px;border:0;scroll-margin-top:80px}.article .wrap{max-width:none;margin:0;padding:0}.article section+section{border:0}
+.sh-eye{color:var(--teal);font-family:var(--fm);font-size:11px;letter-spacing:.13em;margin-bottom:8px}.sh-title{color:var(--t1);font-size:clamp(26px,3vw,37px);line-height:1.25;margin-bottom:14px}.sh-desc{color:var(--t2);max-width:680px;margin-bottom:28px}
+.phase-row,.stat-row{gap:12px}.pc,.sc,.dp,.rc,.mc,.met,.ci{background:var(--surface);border-color:var(--border);box-shadow:0 8px 20px rgba(16,32,31,.035)}.pc{padding:1.5rem}.pc::before{background:var(--teal)}.pc-n,.sc-n{color:var(--teal)}.pc-title,.li-name,.dp-title,.tl-name,.gl-name,.mc-name,.ci-title{color:var(--t1)}.pc-desc,.sc-l,.li-desc,.dp-item,.tl-desc,.rc-desc,.gl-desc,.mc-desc,.met-l,.ci-desc{color:var(--t2)}
+.sep{color:var(--t3)}.sep::before,.sep::after{background:var(--border)}.li{background:var(--surface);border-color:var(--border)}.li:last-child{background:var(--surface-2)}.li-step{color:var(--t3)}.li-tag{background:var(--surface-2);color:var(--t2)}.li:last-child .li-tag{background:var(--teal);color:#fff}
+.dual .dp.sem{border-top-color:var(--teal)}.dual .dp.dat{border-top-color:var(--amber)}.dp.sem .dp-title{color:var(--teal)}.dp.dat .dp-title{color:var(--amber)}.dp-item{border-bottom-color:var(--border)}
+.tower .tl{box-shadow:none}.tl1{background:#fff1d8;border-color:#f0d7a8}.tl2{background:#dff3ed;border-color:#b8ddd3}.tl3{background:#e3f2e9;border-color:#c7e0d0}.tl4{background:#f7f3e8;border-color:#e8debf}.tl5{background:#edf4f1;border-color:#d7e5df}.tl-id{color:var(--teal)}
+.flow-wrap{background:var(--surface);border-color:var(--border);border-radius:8px;box-shadow:0 8px 20px rgba(16,32,31,.035)}.flow-label{color:var(--t3)}.fn{background:var(--surface-2);border-color:var(--border-l);color:var(--teal)}.fn:hover{border-color:var(--teal);box-shadow:0 0 18px rgba(12,129,119,.18)}.ft{color:var(--t2)}.fa{background:var(--border-l)}.fa::after{border-color:var(--border-l)}.pkt{background:var(--teal)}
+.rc-letter,.rc-name{color:var(--teal)}.rc-tag{background:var(--teal-d)!important;color:var(--teal)!important}.btrack{background:#e2ebe7}.bfill{background:var(--teal)}.blabel{color:var(--t2)}.bpct{color:var(--teal)}
+.rt th{color:var(--t3);border-bottom-color:var(--border)}.rt td{color:var(--t2);border-bottom-color:var(--border)}.rt td:first-child{color:var(--teal)}.gl1{background:#fce8e8;border-color:var(--coral)}.gl2{background:#fff1ee}.gl3{background:#fff7e8}.gl4{background:#e9f6f3}.gl5{background:#eff7f2}.badge{background:var(--teal-d);color:var(--teal)}
+.qblock{background:#10201f;border-color:#10201f;border-radius:8px}.qblock blockquote{color:#e1efeb}.anth-card{background:var(--teal-d);border-color:#b8ddd3}.anth-badge{background:#fff;color:var(--teal);border-color:#b8ddd3}.anth-card h4{color:var(--teal)}.anth-card p{color:var(--t2)}.ib{background:var(--amber-d);border-color:#f0d7a8;color:var(--t1)}.ib strong{color:var(--amber)}.skill-tmpl{background:#132422;border-color:#253b38;color:#d6e7e3}.skill-tmpl .sk-head{color:#ffd285}.skill-tmpl .sk-h2{color:#8adace}
+footer{background:#10201f;border:0;color:#b7cbc7;padding:26px 0}footer .wrap{max-width:1240px;padding:0 28px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.rail{display:none}.article section{margin-bottom:54px}}
+@media(max-width:768px){nav{padding:0 16px}.hero{min-height:620px}.hero .wrap{padding:72px 22px 44px}.layout{padding:32px 20px 64px}.stat-row{grid-template-columns:repeat(2,1fr)}.hero-title{font-size:40px}.hero-q{font-size:16px}}
+
+/* Warm editorial refresh. */
+:root{--bg:#f7f5f0;--surface:#fffdfa;--surface-2:#f0ece4;--border:#ded8ce;--border-l:#c9c0b4;--t1:#181716;--t2:#665f57;--t3:#9a9085;--amber:#b55f43;--amber-d:#f6e1d6;--teal:#d97757;--teal-d:#f8e5dc;--coral:#a84634;--coral-d:#f7dfd8;--green:#8b6253;--green-d:#efe3dc}
+body{background:var(--bg);color:var(--t1)}
+nav{background:rgba(247,245,240,.96);border-bottom:1px solid var(--border);box-shadow:none}
+.nav-logo{color:var(--t1);border-right-color:var(--border);font-family:var(--fd);font-size:14px;letter-spacing:.03em;text-transform:none}
+nav a{color:#4f4942;font-size:12px}nav a:hover{background:#efe7df;color:var(--t1)}
+.hero{min-height:575px;background:#f7f5f0}
+.hero::before{opacity:1;background-position:center;background-size:cover}
+.hero::after{background:linear-gradient(90deg,#f7f5f0 0%,rgba(247,245,240,.98) 31%,rgba(247,245,240,.68) 49%,rgba(247,245,240,.08) 72%,rgba(247,245,240,0) 100%)}
+.eyebrow{color:#b55f43;font-family:var(--fs);font-weight:700;letter-spacing:.1em}
+.hero-title{color:var(--t1);font-size:clamp(42px,5.4vw,72px);letter-spacing:0}.hero-title em{color:#d56f50;font-style:normal}.hero-q{border-left-color:#d56f50;color:#4f4942}.hero-a{color:#514a43}.hero-a strong{color:#a84634}
+.layout{padding-top:48px}.rail{border-left-color:var(--border)}.rail a{color:#3b3631}.rail a:hover{color:#b55f43}.rail p{color:var(--t2)}
+.sh-eye{color:#b55f43}.pc::before{background:#d97757}.pc-n,.sc-n{color:#b55f43}.pc,.sc,.dp,.rc,.mc,.met,.ci{background:var(--surface);border-color:var(--border);box-shadow:none}.pc:hover,.sc:hover,.rc:hover{border-color:#c99a7b}
+.li:last-child .li-tag{background:#d97757}.dual .dp.sem{border-top-color:#d97757}.dual .dp.dat{border-top-color:#b89262}.dp.sem .dp-title{color:#b55f43}.dp.dat .dp-title{color:#91633a}.dp.sem .dp-dot{background:#d97757}.dp.dat .dp-dot{background:#b89262}
+.tl1{background:#f8e5dc;border-color:#e6b5a4}.tl2{background:#f3e9df;border-color:#dbc1ad}.tl3{background:#f4eee7;border-color:#ded0c1}.tl4{background:#f7f0e4;border-color:#e8d7b9}.tl5{background:#f2efea;border-color:#ded8ce}.tl-id{color:#b55f43}
+.flow-wrap{background:#fffdfa;border-color:var(--border);box-shadow:none}.fn{background:#f2eee7;border-color:#cfc4b7;color:#b55f43}.fn:hover{border-color:#d97757;box-shadow:0 0 0 3px #f8e5dc}.pkt{background:#d97757}.rc-letter,.rc-name{color:#b55f43}.rc-tag{background:#f8e5dc!important;color:#a84634!important}.btrack{background:#ebe5dc}.bfill{background:#d97757}.bpct{color:#b55f43}
+.gl1{background:#f7dfd8;border-color:#a84634}.gl2{background:#f8e7df;border-color:#c2725d}.gl3{background:#f8eee0;border-color:#b89262}.gl4{background:#f1e9e3;border-color:#b68671}.gl5{background:#f5f0ea;border-color:#a69384}.badge{background:#f8e5dc;color:#a84634}.anth-card{background:#f8e5dc;border-color:#e6b5a4}.anth-badge{background:#fffdfa;color:#a84634;border-color:#e6b5a4}.anth-card h4{color:#a84634}.ib{background:#f8eee0;border-color:#e5c995}.ib strong{color:#91633a}
+.qblock{background:#1d1b19;border-color:#1d1b19}.qblock blockquote{color:#f8f4ed}footer{background:#1d1b19;color:#d8cfc3}
+@media(max-width:768px){.hero{min-height:590px}.hero::after{background:linear-gradient(90deg,rgba(247,245,240,.95),rgba(247,245,240,.72) 70%,rgba(247,245,240,.35))}.hero-title{font-size:42px}}
+
+.hero-copy{max-width:720px;margin-top:22px;padding:20px 24px;background:rgba(25,23,20,.78);border:1px solid rgba(255,255,255,.14);border-radius:2px;backdrop-filter:blur(8px);box-shadow:0 12px 30px rgba(24,20,16,.16)}
+.hero-copy .hero-q{max-width:none;margin:0 0 15px;padding-left:16px;border-left-color:#e28b68;color:#fff;font-size:17px;line-height:1.65}
+.hero-copy .hero-a{max-width:none;margin:0;color:#f7f4ee;font-size:15px;line-height:1.8}
+.hero-copy .hero-a strong{color:#f3ad8d}
+@media(max-width:768px){.hero-copy{margin-top:18px;padding:16px 18px}.hero-copy .hero-q{font-size:15px}.hero-copy .hero-a{font-size:14px}}
+
+/* Make the query-pipeline names the primary visual element, not tiny captions. */
+.flow-steps{align-items:center;gap:10px;padding:4px 2px 12px}
+.fs{min-width:126px;min-height:132px;justify-content:flex-start;padding:17px 12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:6px;box-shadow:0 4px 12px rgba(24,23,22,.04)}
+.fn{width:34px;height:34px;border-radius:50%;font-size:14px;background:#f8e5dc;border-color:#e6b5a4;color:#a84634}
+.ft{max-width:108px;font-size:13px;font-weight:700;line-height:1.45;color:var(--t1)}
+.fa{width:14px;align-self:center;margin-top:0;background:#c9c0b4}.fa::after{border-color:#c9c0b4}
+@media(max-width:768px){.fs{min-width:118px;min-height:122px;padding:14px 10px 12px}.ft{font-size:12px}.flow-steps{gap:8px}}
+
+/* RAG routing labels need to read as category markers, not footnotes. */
+.rc-tag{padding:5px 10px;border-radius:3px;font-size:12px;font-weight:700;letter-spacing:.04em;line-height:1.2;margin:2px 0 11px}
+@media(max-width:768px){.rc-tag{font-size:11px;padding:5px 8px}}
+
+.blabel{min-width:96px;font-size:13px;font-weight:650;color:#403a34;letter-spacing:.01em}.bpct{font-size:12px;font-weight:700;color:#a84634}
+
+.badge{padding:6px 11px;font-size:12px;font-weight:750;letter-spacing:.02em;color:#8e3526}
+
+/* In the query flow, step names lead; sequence numbers are secondary. */
+.fs{min-height:142px;padding:12px 10px;gap:10px}.ft{display:grid;place-items:center;width:100%;min-height:76px;padding:7px 6px;border:1px solid #d8cbbb;border-radius:7px;background:#f6eee5;font-size:15px;font-weight:750;line-height:1.35;color:#2e2924;text-align:center}.fn{order:-1;display:block;position:relative;width:auto;height:auto;min-height:30px;border:0;background:transparent;color:#a84634;font-family:var(--fd);font-size:20px;font-weight:700;line-height:1;letter-spacing:.03em;text-align:center}.fn::after{content:"";display:block;width:17px;height:2px;margin:4px auto 0;background:#d97757}
+@media(max-width:768px){.fs{min-height:132px}.ft{min-height:68px;font-size:13px}.fn{font-size:12px}}
+</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Agentic BI</span>
+  <a href="#part1">时代命题</a>
+  <a href="#part2">架构总览</a>
+  <a href="#part3">语义平面</a>
+  <a href="#part4">RAG检索</a>
+  <a href="#part5">Agent编排</a>
+  <a href="#part6">SQL护栏</a>
+  <a href="#part7">记忆系统</a>
+  <a href="#part8">数据平面</a>
+  <a href="#part9">评估演进</a>
+  <a href="#conclusion">核心结论</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+<div class="wrap">
+  <div class="eyebrow">AI-Ready 数据平台演进全解析</div>
+  <h1 class="hero-title">数据建好了，<br><em>为什么业务人员<br>还是取不到数？</em></h1>
+  <div class="hero-copy">
+    <p class="hero-q">数据湖、数仓、ETL、治理和 BI 都建好了，为什么业务人员还是"取不到数"？</p>
+    <p class="hero-a">
+      传统数据平台解决了"数据是否存在、是否可用"，但没有解决"业务人员是否能用自然语言正确、安全地查询数据"。
+      平台需要从传统 Data Platform 演进为能够被 AI 理解、检索和调用的 <strong>AI-Ready Data Platform</strong>。
+    </p>
+  </div>
+</div>
+</section>
+
+<!-- OVERVIEW -->
+<main class="layout">
+<aside class="rail" aria-label="章节导航">
+  <p>Agentic BI 技术分享<br>从数据供应到受控自治。</p>
+  <a href="#overview">全场地图</a>
+  <a href="#part1">时代命题</a>
+  <a href="#part2">架构总览</a>
+  <a href="#part3">语义平面</a>
+  <a href="#part4">RAG 检索</a>
+  <a href="#part5">Agent 编排</a>
+  <a href="#part6">SQL 护栏</a>
+  <a href="#part7">记忆系统</a>
+  <a href="#part8">数据平面</a>
+  <a href="#part9">评估演进</a>
+  <a href="#conclusion">核心结论</a>
+</aside>
+<article class="article">
+<section id="overview">
+<div class="wrap">
+  <div class="sh-eye">全文结构</div>
+  <h2 class="sh-title">三个阶段，九个专题</h2>
+  <p class="sh-desc">从"为什么转型"到"如何构建"，再到"如何持续演进"，形成完整的 Agentic BI 知识体系。</p>
+  <div class="phase-row rev">
+    <div class="pc">
+      <div class="pc-n">01</div>
+      <div class="pc-title">为什么转型</div>
+      <div class="pc-desc">Part 1 — 时代命题：AI-Ready 数据供应。分析传统平台的瓶颈，定义 Agentic BI 的含义和 AI-Ready 数据的五个特征。</div>
+    </div>
+    <div class="pc">
+      <div class="pc-n">02</div>
+      <div class="pc-title">Agentic BI 如何构建</div>
+      <div class="pc-desc">Part 2–8 — 双平面架构、语义治理、四引擎 RAG、LangGraph 编排、SQL 护栏、记忆系统与数据平面整合。</div>
+    </div>
+    <div class="pc">
+      <div class="pc-n">03</div>
+      <div class="pc-title">如何评估与演进</div>
+      <div class="pc-desc">Part 9 — 三级评估体系、四通道可观测、成本分析、Roadmap 与已知局限。</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PART 1 -->
+<section id="part1">
+<div class="wrap">
+  <div class="sh-eye">Part 1</div>
+  <h2 class="sh-title">时代命题：AI-Ready 数据供应</h2>
+  <p class="sh-desc">前三年完成了基础建设，但业务用户仍依赖数据团队取数。原因不是数据不存在，而是门槛。</p>
+
+  <div class="stat-row rev">
+    <div class="sc">
+      <div class="sc-n">120</div>
+      <div class="sc-l">月均待处理取数请求</div>
+    </div>
+    <div class="sc">
+      <div class="sc-n">15–20</div>
+      <div class="sc-l">高峰期 SQL 队列积压</div>
+    </div>
+    <div class="sc">
+      <div class="sc-n">20%</div>
+      <div class="sc-l">注册用户中会写 SQL 的比例</div>
+    </div>
+    <div class="sc">
+      <div class="sc-n">80%</div>
+      <div class="sc-l">被 SQL 门槛挡在平台外</div>
+    </div>
+  </div>
+
+  <div class="sep">NL2SQL 演进路径</div>
+
+  <div class="two rev">
+    <div>
+      <p style="font-size:.9rem;color:var(--t2);margin-bottom:1.5rem">NL2SQL 不是一步到位的技术，而是经历了四代演进。Agentic BI 是第四阶段——在 Agent 基础上加入语义治理、安全护栏和执行控制。</p>
+      <div class="ladder">
+        <div class="li">
+          <span class="li-step">Phase 1</span>
+          <div class="li-content">
+            <span class="li-tag">Prompt-only</span>
+            <div class="li-name" style="margin-top:.4rem">直接让大模型生成 SQL</div>
+            <div class="li-desc">幻觉严重，缺乏数据上下文，准确率低</div>
+          </div>
+        </div>
+        <div class="li">
+          <span class="li-step">Phase 2</span>
+          <div>
+            <span class="li-tag">Schema-aware RAG</span>
+            <div class="li-name" style="margin-top:.4rem">检索表结构后辅助生成</div>
+            <div class="li-desc">减少幻觉列，但业务口径仍不一致</div>
+          </div>
+        </div>
+        <div class="li">
+          <span class="li-step">Phase 3</span>
+          <div>
+            <span class="li-tag">Agent 编排</span>
+            <div class="li-name" style="margin-top:.4rem">加入多步推理、校验和自愈</div>
+            <div class="li-desc">能处理复杂查询，但企业治理能力仍不足</div>
+          </div>
+        </div>
+        <div class="li">
+          <span class="li-step">Phase 4</span>
+          <div>
+            <span class="li-tag">Agentic BI</span>
+            <div class="li-name" style="margin-top:.4rem">结合语义治理、安全护栏和执行控制</div>
+            <div class="li-desc">SQL 正确 + 口径一致 + 安全可审计 + 可解释 + 自愈</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p style="font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:1rem">AI-Ready 数据的五个特征</p>
+      <div style="display:flex;flex-direction:column;gap:.6rem">
+        <div style="display:flex;gap:1rem;padding:1rem 1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:7px;align-items:flex-start">
+          <span style="font-family:var(--fm);font-size:11px;color:var(--amber);min-width:60px">语义化</span>
+          <span style="font-size:.825rem;color:var(--t2)">表、列、指标、关系都有机器可读的业务描述</span>
+        </div>
+        <div style="display:flex;gap:1rem;padding:1rem 1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:7px;align-items:flex-start">
+          <span style="font-family:var(--fm);font-size:11px;color:var(--amber);min-width:60px">可治理</span>
+          <span style="font-size:.825rem;color:var(--t2)">术语、指标口径和业务规则统一管理</span>
+        </div>
+        <div style="display:flex;gap:1rem;padding:1rem 1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:7px;align-items:flex-start">
+          <span style="font-family:var(--fm);font-size:11px;color:var(--amber);min-width:60px">可追溯</span>
+          <span style="font-size:.825rem;color:var(--t2)">数据来源、语义资产版本和查询过程可追溯</span>
+        </div>
+        <div style="display:flex;gap:1rem;padding:1rem 1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:7px;align-items:flex-start">
+          <span style="font-family:var(--fm);font-size:11px;color:var(--amber);min-width:60px">低延迟</span>
+          <span style="font-size:.825rem;color:var(--t2)">能够支持秒级或近实时查询</span>
+        </div>
+        <div style="display:flex;gap:1rem;padding:1rem 1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:7px;align-items:flex-start">
+          <span style="font-family:var(--fm);font-size:11px;color:var(--amber);min-width:60px">安全</span>
+          <span style="font-size:.825rem;color:var(--t2)">具备 RLS、CLS、脱敏和 SQL 执行护栏</span>
+        </div>
+      </div>
+
+      <div class="anth-card" style="margin-top:1.5rem">
+        <div class="anth-badge">Anthropic / Claude 实践</div>
+        <h4>分析 Agent 的三类失败</h4>
+        <p><strong style="color:var(--teal)">① 概念歧义</strong> — 用户说"活跃用户"时，Agent 不知应绑定哪个指标和时间窗口。<br>
+        <strong style="color:var(--teal)">② 数据陈旧</strong> — 指标定义变化后，Agent 仍按旧知识生成答案。<br>
+        <strong style="color:var(--teal)">③ 检索失败</strong> — 正确定义存在，但 Agent 没能从庞大搜索空间中可靠找到它。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PART 2 -->
+<section id="part2">
+<div class="wrap">
+  <div class="sh-eye">Part 2</div>
+  <h2 class="sh-title">Agentic BI 架构总览</h2>
+  <p class="sh-desc">系统拆成两个平面，五个逻辑层，以确定性 DAG 替代完全自由的 ReAct，实现可审计、可排查的"受控自治"。</p>
+
+  <div class="sep">双平面架构</div>
+  <div class="dual rev">
+    <div class="dp sem">
+      <div class="dp-title">语义平面</div>
+      <div class="dp-item"><span class="dp-dot"></span><span>管理表、列、指标、术语、规则和 Join 关系</span></div>
+      <div class="dp-item"><span class="dp-dot"></span><span>Git + YAML，离线发布，走 PR + CI 审查流程</span></div>
+      <div class="dp-item"><span class="dp-dot"></span><span>改指标口径不影响执行引擎</span></div>
+      <div class="dp-item"><span class="dp-dot"></span><span>语义变更可版本化、可回滚、可审计</span></div>
+    </div>
+    <div class="dp dat">
+      <div class="dp-title">数据平面</div>
+      <div class="dp-item"><span class="dp-dot"></span><span>执行 SQL 和返回查询结果</span></div>
+      <div class="dp-item"><span class="dp-dot"></span><span>Redshift Serverless，在线执行</span></div>
+      <div class="dp-item"><span class="dp-dot"></span><span>更换执行后端不影响语义治理</span></div>
+      <div class="dp-item"><span class="dp-dot"></span><span>AI 查询使用独立实例，不影响生产 BI</span></div>
+    </div>
+  </div>
+
+  <div class="sep">五层逻辑模型</div>
+  <div class="tower rev">
+    <div class="tl tl1">
+      <span class="tl-id">L1</span>
+      <span class="tl-name">交互层</span>
+      <span class="tl-desc">对话界面、结果展示、SSE 流式输出</span>
+    </div>
+    <div class="tl tl2">
+      <span class="tl-id">L2</span>
+      <span class="tl-name">编排层</span>
+      <span class="tl-desc">状态机、路由和流程控制</span>
+    </div>
+    <div class="tl tl3">
+      <span class="tl-id">L3</span>
+      <span class="tl-name">智能层</span>
+      <span class="tl-desc">RAG、Agent 编排、SQL 生成、护栏</span>
+    </div>
+    <div class="tl tl4">
+      <span class="tl-id">L4</span>
+      <span class="tl-name">数据层</span>
+      <span class="tl-desc">SQL 执行和数据存储</span>
+    </div>
+    <div class="tl tl5">
+      <span class="tl-id">L5</span>
+      <span class="tl-name">治理层</span>
+      <span class="tl-desc">语义资产、术语、指标和业务规则（只能向下依赖，运行时不能反向修改）</span>
+    </div>
+  </div>
+
+  <div class="sep">九步查询流程</div>
+  <div class="flow-wrap rev">
+    <div class="flow-label">完整查询链路 — 悬停节点查看说明</div>
+    <div class="flow-steps">
+      <div class="fs"><div class="ft">自然语言提问</div><div class="fn" title="用户用自然语言提问">1</div></div>
+      <div class="fa"><div class="pkt" style="animation-delay:0s"></div></div>
+      <div class="fs"><div class="ft">Supervisor 治理上下文</div><div class="fn" title="Supervisor 接收请求并注入治理上下文">2</div></div>
+      <div class="fa"><div class="pkt" style="animation-delay:.35s"></div></div>
+      <div class="fs"><div class="ft">意图 &amp; 实体识别</div><div class="fn" title="Query Understanding 识别意图和实体">3</div></div>
+      <div class="fa"><div class="pkt" style="animation-delay:.7s"></div></div>
+      <div class="fs"><div class="ft">确定性路由</div><div class="fn" title="根据意图进行确定性路由">4</div></div>
+      <div class="fa"><div class="pkt" style="animation-delay:1.05s"></div></div>
+      <div class="fs"><div class="ft">R/V/G/D 检索</div><div class="fn" title="R/V/G/D 四引擎并行+串行检索">5</div></div>
+      <div class="fa"><div class="pkt" style="animation-delay:1.4s"></div></div>
+      <div class="fs"><div class="ft">Join 路径规划</div><div class="fn" title="规划 Join 路径和语义约束">6</div></div>
+      <div class="fa"><div class="pkt" style="animation-delay:1.75s"></div></div>
+      <div class="fs"><div class="ft">语义约束 SQL 生成</div><div class="fn" title="在语义约束下生成 SQL">7</div></div>
+      <div class="fa"><div class="pkt" style="animation-delay:2.1s"></div></div>
+      <div class="fs"><div class="ft">五层护栏 &amp; 自愈</div><div class="fn" title="五层 SQL 护栏 + 自愈">8</div></div>
+      <div class="fa"><div class="pkt" style="animation-delay:2.45s"></div></div>
+      <div class="fs"><div class="ft">执行 &amp; 可视化</div><div class="fn" title="执行 SQL 并可视化">9</div></div>
+    </div>
+  </div>
+
+  <div class="ib">
+    <strong>为什么选择确定性 DAG 而非纯 ReAct？</strong> 企业级场景需要路径可预测、过程可审计、问题可排查、权限和风险可控。代价是灵活性低于纯 ReAct，但更适合金融等高合规场景。
+  </div>
+</div>
+</section>
+
+<!-- PART 3 -->
+<section id="part3">
+<div class="wrap">
+  <div class="sh-eye">Part 3</div>
+  <h2 class="sh-title">语义平面：三层治理与 Git + YAML</h2>
+  <p class="sh-desc">AI 语义层不只描述指标和维度，还要描述术语映射、业务规则、Join 约束、权限和可供 Agent 消费的示例。</p>
+
+  <div class="two rev">
+    <div>
+      <p style="font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:1rem">三层语义治理</p>
+      <div style="display:flex;flex-direction:column;gap:3px">
+        <div style="padding:1.25rem 1.5rem;background:rgba(232,164,74,.12);border:1px solid rgba(232,164,74,.28);border-radius:6px">
+          <div style="font-family:var(--fm);font-size:11px;color:var(--amber);margin-bottom:.4rem">L1 元数据契约</div>
+          <div style="font-size:.84rem;color:var(--t2)">数据<em>长什么样</em> — 表结构、列类型、主外键、粒度、关联关系</div>
+        </div>
+        <div style="padding:1.25rem 1.5rem;background:rgba(78,205,196,.1);border:1px solid rgba(78,205,196,.22);border-radius:6px">
+          <div style="font-family:var(--fm);font-size:11px;color:var(--teal);margin-bottom:.4rem">L2 术语治理</div>
+          <div style="font-size:.84rem;color:var(--t2)">业务术语<em>对应什么</em> — "GMV""成交额""总销售额"→ 统一绑定 <code style="font-family:var(--fm);font-size:.78rem">metric_gmv</code></div>
+        </div>
+        <div style="padding:1.25rem 1.5rem;background:rgba(126,200,160,.08);border:1px solid rgba(126,200,160,.18);border-radius:6px">
+          <div style="font-family:var(--fm);font-size:11px;color:var(--green);margin-bottom:.4rem">L3 业务规则</div>
+          <div style="font-size:.84rem;color:var(--t2)">业务<em>应该怎么算</em> — GMV = SUM(amount) WHERE status = 'completed'</div>
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem">
+        <p style="font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:1rem">九类语义资产</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+          <span style="font-family:var(--fm);font-size:10px;padding:3px 9px;border-radius:3px;background:var(--surface-2);color:var(--t2)">Table</span>
+          <span style="font-family:var(--fm);font-size:10px;padding:3px 9px;border-radius:3px;background:var(--surface-2);color:var(--t2)">Column</span>
+          <span style="font-family:var(--fm);font-size:10px;padding:3px 9px;border-radius:3px;background:var(--surface-2);color:var(--amber)">Metric</span>
+          <span style="font-family:var(--fm);font-size:10px;padding:3px 9px;border-radius:3px;background:var(--surface-2);color:var(--t2)">Join</span>
+          <span style="font-family:var(--fm);font-size:10px;padding:3px 9px;border-radius:3px;background:var(--surface-2);color:var(--teal)">Term</span>
+          <span style="font-family:var(--fm);font-size:10px;padding:3px 9px;border-radius:3px;background:var(--surface-2);color:var(--t2)">Rule</span>
+          <span style="font-family:var(--fm);font-size:10px;padding:3px 9px;border-radius:3px;background:var(--surface-2);color:var(--t2)">Few-shot</span>
+          <span style="font-family:var(--fm);font-size:10px;padding:3px 9px;border-radius:3px;background:var(--surface-2);color:var(--t2)">Context</span>
+          <span style="font-family:var(--fm);font-size:10px;padding:3px 9px;border-radius:3px;background:var(--surface-2);color:var(--coral)">Permission</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p style="font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:1rem">Git + YAML 发布流程</p>
+      <div style="display:flex;flex-direction:column;gap:3px">
+        <div style="display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:5px;font-size:.82rem">
+          <span style="font-family:var(--fm);font-size:10px;color:var(--amber);min-width:80px">YAML 编写</span>
+          <span style="color:var(--t2)">业务人员 / 数据团队编写资产定义</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:5px;font-size:.82rem">
+          <span style="font-family:var(--fm);font-size:10px;color:var(--amber);min-width:80px">pre-commit</span>
+          <span style="color:var(--t2)">格式校验、本地引用完整性</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:5px;font-size:.82rem">
+          <span style="font-family:var(--fm);font-size:10px;color:var(--amber);min-width:80px">CI 校验</span>
+          <span style="color:var(--t2)">引用完整性检查、循环依赖检测</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:5px;font-size:.82rem">
+          <span style="font-family:var(--fm);font-size:10px;color:var(--amber);min-width:80px">PR Review</span>
+          <span style="color:var(--t2)">业务 + 数据双确认，保证口径一致</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:5px;font-size:.82rem">
+          <span style="font-family:var(--fm);font-size:10px;color:var(--amber);min-width:80px">发布 → S3</span>
+          <span style="color:var(--t2)">同步关系、向量和图索引</span>
+        </div>
+      </div>
+
+      <div style="margin-top:1.25rem;padding:1rem 1.25rem;background:var(--surface-2);border:1px solid var(--border);border-radius:7px">
+        <p style="font-family:var(--fm);font-size:10px;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.6rem">SemVer 认证生命周期</p>
+        <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;font-family:var(--fm);font-size:11px">
+          <span style="padding:2px 10px;background:var(--surface);border:1px solid var(--border);border-radius:3px;color:var(--t2)">draft</span>
+          <span style="color:var(--t3)">→</span>
+          <span style="padding:2px 10px;background:var(--surface);border:1px solid var(--border);border-radius:3px;color:var(--t2)">reviewed</span>
+          <span style="color:var(--t3)">→</span>
+          <span style="padding:2px 10px;background:rgba(126,200,160,.15);border:1px solid rgba(126,200,160,.3);border-radius:3px;color:var(--green)">certified ✓</span>
+          <span style="color:var(--t3)">→</span>
+          <span style="padding:2px 10px;background:rgba(224,122,95,.12);border:1px solid rgba(224,122,95,.25);border-radius:3px;color:var(--coral)">deprecated</span>
+        </div>
+        <p style="font-size:.78rem;color:var(--t3);margin-top:.5rem">只有 certified 资产在 RAG 中获得更高优先级</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PART 4 -->
+<section id="part4">
+<div class="wrap">
+  <div class="sh-eye">Part 4</div>
+  <h2 class="sh-title">R/V/G/D 四引擎 RAG 检索</h2>
+  <p class="sh-desc">NL2SQL 检索的对象是结构化语义资产，不同问题需要不同检索方式。单一向量检索远远不够。</p>
+
+  <div class="rag-row rev">
+    <div class="rc">
+      <div class="rc-letter" style="color:var(--amber)">R</div>
+      <div class="rc-name">Relation</div>
+      <span class="rc-tag" style="background:var(--amber-d);color:var(--amber)">精确匹配</span>
+      <div class="rc-desc">"GMV 是什么" — 通过关系型数据库精确查找术语绑定和指标定义</div>
+    </div>
+    <div class="rc">
+      <div class="rc-letter" style="color:var(--teal)">V</div>
+      <div class="rc-name">Vector</div>
+      <span class="rc-tag" style="background:var(--teal-d);color:var(--teal)">语义检索</span>
+      <div class="rc-desc">"和销售相关的表" — 通过 pgvector 向量相似度检索语义相关资产</div>
+    </div>
+    <div class="rc">
+      <div class="rc-letter" style="color:var(--green)">G</div>
+      <div class="rc-name">Graph</div>
+      <span class="rc-tag" style="background:var(--green-d);color:var(--green)">图遍历</span>
+      <div class="rc-desc">"哪些表可以 Join" — Apache AGE 图数据库遍历表间关联关系</div>
+    </div>
+    <div class="rc">
+      <div class="rc-letter" style="color:var(--coral)">D</div>
+      <div class="rc-name">Dynamic Few-shot</div>
+      <span class="rc-tag" style="background:var(--coral-d);color:var(--coral)">经验复用</span>
+      <div class="rc-desc">"上次类似问题怎么写" — 动态检索历史成功问答，注入 Prompt</div>
+    </div>
+  </div>
+
+  <div class="ib" style="margin-bottom:2rem">
+    <strong>并行 + 串行协作：</strong>R、V、D 并行执行降低延迟；G 依赖前面检索得到的资产 ID，因此串行执行。典型流程：<code style="font-family:var(--fm);font-size:.82rem">R+V+D 并行 → 合并 → G 图遍历 → 构造检索上下文</code>
+  </div>
+
+  <div class="two rev">
+    <div>
+      <p style="font-family:var(--fm);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#66564c;margin-bottom:1rem">Token 预算分配</p>
+      <div class="budget">
+        <div class="brow"><span class="blabel">Tables</span><div class="btrack"><div class="bfill" style="width:30%"></div></div><span class="bpct">30%</span></div>
+        <div class="brow"><span class="blabel">Columns</span><div class="btrack"><div class="bfill" style="width:25%"></div></div><span class="bpct">25%</span></div>
+        <div class="brow"><span class="blabel">Metrics</span><div class="btrack"><div class="bfill" style="width:15%"></div></div><span class="bpct">15%</span></div>
+        <div class="brow"><span class="blabel">Few-shots</span><div class="btrack"><div class="bfill" style="width:10%"></div></div><span class="bpct">10%</span></div>
+        <div class="brow"><span class="blabel">Join rules</span><div class="btrack"><div class="bfill" style="width:10%"></div></div><span class="bpct">10%</span></div>
+        <div class="brow"><span class="blabel">Biz rules</span><div class="btrack"><div class="bfill" style="width:10%"></div></div><span class="bpct">10%</span></div>
+      </div>
+      <p style="font-size:.78rem;color:var(--t3);margin-top:.75rem">目的是确保关键类别不会因相似度分数低而被全部裁掉</p>
+    </div>
+    <div>
+      <p style="font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:1rem">Reranker 四阶段重排</p>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="display:flex;gap:1rem;padding:.85rem 1.1rem;background:var(--surface);border:1px solid var(--border);border-radius:5px;font-size:.82rem;align-items:flex-start">
+          <span style="font-family:var(--fm);color:var(--amber);font-size:10px;min-width:20px">①</span>
+          <div><strong>术语绑定提升</strong><br><span style="color:var(--t2)">与用户术语强绑定的指标和列优先</span></div>
+        </div>
+        <div style="display:flex;gap:1rem;padding:.85rem 1.1rem;background:var(--surface);border:1px solid var(--border);border-radius:5px;font-size:.82rem;align-items:flex-start">
+          <span style="font-family:var(--fm);color:var(--amber);font-size:10px;min-width:20px">②</span>
+          <div><strong>QU 信号重排</strong><br><span style="color:var(--t2)">与意图、指标和实体匹配的资产加分</span></div>
+        </div>
+        <div style="display:flex;gap:1rem;padding:.85rem 1.1rem;background:var(--surface);border:1px solid var(--border);border-radius:5px;font-size:.82rem;align-items:flex-start">
+          <span style="font-family:var(--fm);color:var(--amber);font-size:10px;min-width:20px">③</span>
+          <div><strong>动态列裁剪</strong><br><span style="color:var(--t2)">只保留指标、维度、过滤、主外键和时间列</span></div>
+        </div>
+        <div style="display:flex;gap:1rem;padding:.85rem 1.1rem;background:var(--surface);border:1px solid var(--border);border-radius:5px;font-size:.82rem;align-items:flex-start">
+          <span style="font-family:var(--fm);color:var(--amber);font-size:10px;min-width:20px">④</span>
+          <div><strong>Join 路径简化</strong><br><span style="color:var(--t2)">降低高扇出和高风险 Join 的优先级</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PART 5 -->
+<section id="part5">
+<div class="wrap">
+  <div class="sh-eye">Part 5</div>
+  <h2 class="sh-title">Agent 编排：LangGraph 与状态机</h2>
+  <p class="sh-desc">确定性 DAG + 条件路由，结合 Plan-and-Execute、Reflexion 和 ReAct 三种理论，实现"受控自治"。</p>
+
+  <div class="two rev" style="margin-bottom:2rem">
+    <div>
+      <p style="font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:1rem">七类路由策略</p>
+      <table class="rt">
+        <thead><tr><th>路由类型</th><th>触发场景</th></tr></thead>
+        <tbody>
+          <tr><td>标准查询</td><td style="color:var(--t2)">常规 NL→SQL 流程</td></tr>
+          <tr><td>SQL 缓存命中</td><td style="color:var(--t2)">相似度 ≥ 0.92，跳过 RAG 和生成</td></tr>
+          <tr><td>元数据查询</td><td style="color:var(--t2)">询问表结构、字段、指标定义</td></tr>
+          <tr><td>深度分析</td><td style="color:var(--t2)">多步骤洞察、趋势分析</td></tr>
+          <tr><td>图推理</td><td style="color:var(--t2)">复杂关联、血缘追踪</td></tr>
+          <tr><td>知识问答</td><td style="color:var(--t2)">业务规则、概念解释</td></tr>
+          <tr><td>澄清请求</td><td style="color:var(--t2)">歧义或信息不足，主动询问</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <p style="font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:1rem">自愈回路</p>
+      <div style="display:flex;flex-direction:column;gap:3px">
+        <div style="padding:.75rem 1.1rem;background:rgba(224,122,95,.12);border:1px solid rgba(224,122,95,.25);border-radius:5px;font-size:.82rem"><strong style="color:var(--coral)">护栏失败</strong> → 触发自愈流程</div>
+        <div style="padding:.75rem 1.1rem;background:var(--surface);border:1px solid var(--border);border-radius:5px;font-size:.82rem;color:var(--t2)">分析失败原因 → 反馈具体错误类型</div>
+        <div style="padding:.75rem 1.1rem;background:var(--surface);border:1px solid var(--border);border-radius:5px;font-size:.82rem;color:var(--t2)">Corrective Retrieval 补充检索</div>
+        <div style="padding:.75rem 1.1rem;background:var(--surface);border:1px solid var(--border);border-radius:5px;font-size:.82rem;color:var(--t2)">重新生成 SQL → 再次校验</div>
+        <div style="padding:.75rem 1.1rem;background:rgba(126,200,160,.1);border:1px solid rgba(126,200,160,.22);border-radius:5px;font-size:.82rem"><strong style="color:var(--green)">最多重试 2 次</strong>，防止无限循环</div>
+      </div>
+
+      <div style="margin-top:1.25rem;padding:1rem 1.25rem;background:var(--surface-2);border:1px solid var(--border);border-radius:7px">
+        <p style="font-family:var(--fm);font-size:10px;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.6rem">HITL 人工审批触发条件</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.35rem;font-size:.78rem">
+          <span style="padding:2px 9px;background:rgba(224,122,95,.12);border:1px solid rgba(224,122,95,.2);border-radius:3px;color:var(--coral)">DDL 操作</span>
+          <span style="padding:2px 9px;background:rgba(224,122,95,.12);border:1px solid rgba(224,122,95,.2);border-radius:3px;color:var(--coral)">大批量 DELETE/UPDATE</span>
+          <span style="padding:2px 9px;background:rgba(224,122,95,.12);border:1px solid rgba(224,122,95,.2);border-radius:3px;color:var(--coral)">跨租户导出</span>
+          <span style="padding:2px 9px;background:rgba(224,122,95,.12);border:1px solid rgba(224,122,95,.2);border-radius:3px;color:var(--coral)">高成本查询</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="anth-card">
+    <div class="anth-badge">Anthropic / Claude 实践</div>
+    <h4>Skills：语义资产之外的补充层</h4>
+    <p>语义资产回答"数据是什么、在哪里、怎么算"；Skills 回答"应该咨询哪些来源、按什么顺序分析、有哪些常见陷阱"。
+    <strong style="color:var(--teal)">Knowledge Skills</strong> 引导 Agent 在多个候选表之间选择正确对象；
+    <strong style="color:var(--teal)">Runbook Skills</strong> 复用留存、漏斗、异常和队列分析等分析方法。
+    关键业务指标口径必须由业务与数据团队人工编排，不能完全依赖 LLM 自动生成。</p>
+  </div>
+</div>
+</section>
+
+<!-- PART 6 -->
+<section id="part6">
+<div class="wrap">
+  <div class="sh-eye">Part 6</div>
+  <h2 class="sh-title">五层 SQL 护栏与执行安全</h2>
+  <p class="sh-desc">SQL 是大模型生成的，不代表可以直接信任。生成层、输入层、数据库执行层三重防护缺一不可。</p>
+
+  <div class="gstack rev">
+    <div class="gl gl1">
+      <span class="gl-n">L1</span>
+      <span class="gl-name">语法校验</span>
+      <span class="gl-desc">SQL 是否能够正确解析</span>
+      <span class="badge b-block">直接拒绝</span>
+    </div>
+    <div class="gl gl2">
+      <span class="gl-n">L2</span>
+      <span class="gl-name">策略黑名单</span>
+      <span class="gl-desc">禁止 DROP、DELETE、TRUNCATE 等危险操作</span>
+      <span class="badge b-block">直接拒绝</span>
+    </div>
+    <div class="gl gl3">
+      <span class="gl-n">L3</span>
+      <span class="gl-name">AST 列白名单</span>
+      <span class="gl-desc">引用的列必须在语义资产中存在</span>
+      <span class="badge b-heal">进入自愈</span>
+    </div>
+    <div class="gl gl4">
+      <span class="gl-n">L4</span>
+      <span class="gl-name">术语语义校验</span>
+      <span class="gl-desc">SQL 是否遵守指标和业务术语定义</span>
+      <span class="badge b-heal">进入自愈</span>
+    </div>
+    <div class="gl gl5">
+      <span class="gl-n">L5</span>
+      <span class="gl-name">成本估算</span>
+      <span class="gl-desc">EXPLAIN 判断扫描量和执行成本是否超限</span>
+      <span class="badge b-heal">进入自愈</span>
+    </div>
+  </div>
+
+  <div class="ib" style="margin-top:1.5rem">
+    <strong>核心原则：</strong>AI 的权限不应该超过用户的权限。即使大模型生成了缺少过滤条件的 SQL，数据库层的 RLS 也应继续限制最终结果。执行层保留：强制 LIMIT、查询超时、PII 脱敏 UDF、RLS 行级安全、CLS 列级安全。
+  </div>
+</div>
+</section>
+
+<!-- PART 7 -->
+<section id="part7">
+<div class="wrap">
+  <div class="sh-eye">Part 7</div>
+  <h2 class="sh-title">记忆系统与工具使用</h2>
+  <p class="sh-desc">四层记忆按生命周期分离，触发式写入保证可审计性，SQL 语义缓存保持数据新鲜。</p>
+
+  <div class="mem-row rev">
+    <div class="mc">
+      <div class="mc-icon">⚡</div>
+      <div class="mc-name">Working Memory</div>
+      <div class="mc-scope">会话级 · 结束后清除</div>
+      <div class="mc-desc">当前对话和查询上下文。承载本次查询的所有中间状态，会话结束后自动清除。</div>
+    </div>
+    <div class="mc">
+      <div class="mc-icon">👤</div>
+      <div class="mc-name">Profile Memory</div>
+      <div class="mc-scope">用户级 · 跨会话持久化</div>
+      <div class="mc-desc">用户偏好、常用指标、权限配置。跨会话保存，个性化查询体验的基础。</div>
+    </div>
+    <div class="mc">
+      <div class="mc-icon">📖</div>
+      <div class="mc-name">Episodic Memory</div>
+      <div class="mc-scope">平台级 · 经验复用</div>
+      <div class="mc-desc">历史问题和 SQL，成为 Dynamic Few-shot 的来源。需经 Admin 审核才能进入检索池。</div>
+    </div>
+    <div class="mc">
+      <div class="mc-icon">🔧</div>
+      <div class="mc-name">Correction Memory</div>
+      <div class="mc-scope">平台级 · 错误防护</div>
+      <div class="mc-desc">用户纠正过的错误和错误模式，用于避免 Agent 重复犯同类错误。</div>
+    </div>
+  </div>
+
+  <div class="ib">
+    <strong>SQL 语义缓存策略：</strong>缓存 SQL 而非查询结果；相似度 ≥ 0.92 命中缓存后仍重新执行 SQL；TTL 约 15 分钟。这样可以保持数据新鲜，避免返回过期数据。
+  </div>
+</div>
+</section>
+
+<!-- PART 8 -->
+<section id="part8">
+<div class="wrap">
+  <div class="sh-eye">Part 8</div>
+  <h2 class="sh-title">数据平面与 CDP 整合</h2>
+  <p class="sh-desc">Agentic BI 不另建一套独立数据体系，而是在现有 CDP 数据平台上增加 AI 消费层。</p>
+
+  <div class="two rev">
+    <div>
+      <p style="font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:1rem">PG Supernode 统一检索层</p>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.5rem">
+        <div style="font-size:.825rem;color:var(--t2);margin-bottom:1rem">单一 PostgreSQL 实例同时承载四类检索，降低运维复杂度，保证事务一致性。</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem">
+          <div style="display:flex;gap:.75rem;align-items:center;font-size:.82rem"><span style="font-family:var(--fm);color:var(--amber);min-width:20px">R</span><span style="color:var(--t2)">关系型精确检索</span></div>
+          <div style="display:flex;gap:.75rem;align-items:center;font-size:.82rem"><span style="font-family:var(--fm);color:var(--teal);min-width:20px">V</span><span style="color:var(--t2)">pgvector 向量检索</span></div>
+          <div style="display:flex;gap:.75rem;align-items:center;font-size:.82rem"><span style="font-family:var(--fm);color:var(--green);min-width:20px">G</span><span style="color:var(--t2)">Apache AGE 图检索</span></div>
+          <div style="display:flex;gap:.75rem;align-items:center;font-size:.82rem"><span style="font-family:var(--fm);color:var(--coral);min-width:20px">D</span><span style="color:var(--t2)">Dynamic Few-shot</span></div>
+          <div style="display:flex;gap:.75rem;align-items:center;font-size:.82rem"><span style="font-family:var(--fm);color:var(--t3);min-width:20px">$</span><span style="color:var(--t2)">SQL 语义缓存</span></div>
+        </div>
+        <div style="margin-top:1rem;padding:.75rem;background:var(--surface-2);border-radius:5px;font-size:.78rem;color:var(--t3)">规模扩展时可切换至 Qdrant / Milvus 等专用向量数据库</div>
+      </div>
+    </div>
+    <div>
+      <p style="font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:1rem">AI-Ready 数据供应四步</p>
+      <div style="display:flex;flex-direction:column;gap:.5rem">
+        <div style="display:flex;gap:1rem;padding:1rem 1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:6px;align-items:flex-start">
+          <span style="font-family:var(--fm);color:var(--amber);font-size:11px;min-width:20px">01</span>
+          <div style="font-size:.83rem"><strong>识别 AI 消费场景</strong><br><span style="color:var(--t2)">确定哪些查询需要 AI 化，排优先级</span></div>
+        </div>
+        <div style="display:flex;gap:1rem;padding:1rem 1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:6px;align-items:flex-start">
+          <span style="font-family:var(--fm);color:var(--amber);font-size:11px;min-width:20px">02</span>
+          <div style="font-size:.83rem"><strong>为核心表编写语义资产</strong><br><span style="color:var(--t2)">大模型生成 YAML 草稿，人工审核确认</span></div>
+        </div>
+        <div style="display:flex;gap:1rem;padding:1rem 1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:6px;align-items:flex-start">
+          <span style="font-family:var(--fm);color:var(--amber);font-size:11px;min-width:20px">03</span>
+          <div style="font-size:.83rem"><strong>经过 CI 校验并发布</strong><br><span style="color:var(--t2)">走 Git + PR 流程，同步索引</span></div>
+        </div>
+        <div style="display:flex;gap:1rem;padding:1rem 1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:6px;align-items:flex-start">
+          <span style="font-family:var(--fm);color:var(--amber);font-size:11px;min-width:20px">04</span>
+          <div style="font-size:.83rem"><strong>根据实际使用反馈迭代</strong><br><span style="color:var(--t2)">错误案例驱动资产更新和 Skill 补充</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PART 9 -->
+<section id="part9">
+<div class="wrap">
+  <div class="sh-eye">Part 9</div>
+  <h2 class="sh-title">评估、可观测与持续演进</h2>
+  <p class="sh-desc">上线不是终点。质量评估、运行时追踪、反馈闭环、成本控制和能力边界都要建立起来。</p>
+
+  <p style="font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:1rem">内部 POC 基准（小业务域内部观测，不应外推到全平台）</p>
+  <div class="mets rev">
+    <div class="met"><div class="met-v c-good">95%+</div><div class="met-l">简单查询准确率</div></div>
+    <div class="met"><div class="met-v c-warn">85–90%</div><div class="met-l">复杂查询准确率</div></div>
+    <div class="met"><div class="met-v c-info">8s</div><div class="met-l">P50 端到端延迟</div></div>
+    <div class="met"><div class="met-v c-warn">25s</div><div class="met-l">P95 延迟</div></div>
+  </div>
+  <div class="mets rev">
+    <div class="met"><div class="met-v c-warn">7%</div><div class="met-l">护栏拦截率</div></div>
+    <div class="met"><div class="met-v c-good">70%</div><div class="met-l">自愈成功率</div></div>
+    <div class="met"><div class="met-v c-info">35%</div><div class="met-l">缓存命中率</div></div>
+    <div class="met"><div class="met-v c-good">4.2/5</div><div class="met-l">用户满意度</div></div>
+  </div>
+
+  <div class="sep">三种评估方式</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem" class="rev">
+    <div style="padding:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:8px">
+      <div style="font-weight:600;font-size:.9rem;margin-bottom:.4rem">端到端评估</div>
+      <div style="font-size:.8rem;color:var(--t2)">最终答案是否正确。最接近用户体验，但难以定位错误环节。</div>
+    </div>
+    <div style="padding:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:8px">
+      <div style="font-weight:600;font-size:.9rem;margin-bottom:.4rem">轨迹评估</div>
+      <div style="font-size:.8rem;color:var(--t2)">每一步检索、规划、生成和执行是否正确。有助排查问题，但成本较高。</div>
+    </div>
+    <div style="padding:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:8px">
+      <div style="font-weight:600;font-size:.9rem;margin-bottom:.4rem">结果评估</div>
+      <div style="font-size:.8rem;color:var(--t2)">SQL 和数据是否正确。客观可量化，但不能全面反映过程质量。</div>
+    </div>
+  </div>
+
+  <div class="sep">四通道可观测</div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem" class="rev">
+    <div style="padding:1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;text-align:center">
+      <div style="font-family:var(--fm);font-size:1.2rem;color:var(--amber);margin-bottom:.5rem">📊</div>
+      <div style="font-weight:600;font-size:.875rem;margin-bottom:.3rem">Langfuse</div>
+      <div style="font-size:.78rem;color:var(--t2)">单次查询完整链路追踪</div>
+    </div>
+    <div style="padding:1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;text-align:center">
+      <div style="font-family:var(--fm);font-size:1.2rem;color:var(--teal);margin-bottom:.5rem">📡</div>
+      <div style="font-weight:600;font-size:.875rem;margin-bottom:.3rem">AutoMQ / Kafka</div>
+      <div style="font-size:.78rem;color:var(--t2)">事件流审计与回放</div>
+    </div>
+    <div style="padding:1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;text-align:center">
+      <div style="font-family:var(--fm);font-size:1.2rem;color:var(--green);margin-bottom:.5rem">📝</div>
+      <div style="font-weight:600;font-size:.875rem;margin-bottom:.3rem">structlog</div>
+      <div style="font-size:.78rem;color:var(--t2)">结构化调试日志</div>
+    </div>
+    <div style="padding:1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;text-align:center">
+      <div style="font-family:var(--fm);font-size:1.2rem;color:var(--coral);margin-bottom:.5rem">📈</div>
+      <div style="font-weight:600;font-size:.875rem;margin-bottom:.3rem">Prometheus</div>
+      <div style="font-size:.78rem;color:var(--t2)">成功率、延迟、缓存与告警</div>
+    </div>
+  </div>
+  <div class="ib">
+    四类信息通过 <code style="font-family:var(--fm);font-size:.82rem">trace_id</code> 串联，实现"一次查询，四处留痕"。
+  </div>
+
+  <div class="anth-card" style="margin-top:2rem">
+    <div class="anth-badge">Anthropic / Claude 实践</div>
+    <h4>验证与防止知识腐烂</h4>
+    <p>
+      <strong style="color:var(--teal)">固定快照离线评估</strong> — 在固定数据和 Schema 快照上运行，保证测试可重复。<br>
+      <strong style="color:var(--teal)">按 PR 消融测试</strong> — 修改语义层、Skill、Prompt 或路由逻辑时，评估变更前后差异。<br>
+      <strong style="color:var(--teal)">在线对抗性审查</strong> — 可提升约 6% 准确度，但增加约 32% Token 和约 72% 延迟，适合复杂分析或抽样查询。
+    </p>
+  </div>
+</div>
+</section>
+
+<!-- CONCLUSION -->
+<section id="conclusion">
+<div class="wrap">
+  <div class="sh-eye">核心结论</div>
+  <h2 class="sh-title">五条最重要的判断</h2>
+  <p class="sh-desc">从十个专题中提炼出的关键认知，指向企业级 Agentic BI 的本质。</p>
+
+  <div class="conc rev">
+    <div class="ci">
+      <div class="ci-n">1</div>
+      <div>
+        <div class="ci-title">数据平台建设的下一道门槛是 AI 可消费性</div>
+        <div class="ci-desc">有数据不等于业务能查询；有 Schema 不等于 AI 理解业务口径。AI-Ready 是新的基础设施门槛。</div>
+      </div>
+    </div>
+    <div class="ci">
+      <div class="ci-n">2</div>
+      <div>
+        <div class="ci-title">Agentic BI 的核心不是大模型，而是工程治理</div>
+        <div class="ci-desc">语义平面、多路 RAG、SQL 护栏、权限控制、自愈与审计——大模型只是其中一个组件，工程治理才是决定质量上限的因素。</div>
+      </div>
+    </div>
+    <div class="ci">
+      <div class="ci-n">3</div>
+      <div>
+        <div class="ci-title">语义资产是 AI 数据平台的核心基础设施</div>
+        <div class="ci-desc">表、列、指标、术语、规则和 Join 关系都需要版本化管理。业务知识必须从人的经验中沉淀为机器可读资产。</div>
+      </div>
+    </div>
+    <div class="ci">
+      <div class="ci-n">4</div>
+      <div>
+        <div class="ci-title">结构化数据需要通过语义化和治理变得可被 Agent 消费</div>
+        <div class="ci-desc">分析 Agent 负责查询，语义资产统一口径，Skills 沉淀可复用分析知识，SQL 护栏与权限体系控制执行风险——四者缺一不可。</div>
+      </div>
+    </div>
+    <div class="ci">
+      <div class="ci-n">5</div>
+      <div>
+        <div class="ci-title">企业级 Agent 的关键是"受控自治"</div>
+        <div class="ci-desc">简单任务可以自动化，复杂任务需要规划和评估，高风险操作必须人工审批。所有查询都需要可观测、可追溯、可解释。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qblock">
+    <blockquote>
+      Data + AI 转型不是把一个大模型接到数据仓库上，<br>
+      而是把已有数据平台进一步语义化、治理化、工具化，<br>
+      使数据能够被 Agent 正确理解、安全调用，<br>
+      并在真实业务反馈中持续进化。
+    </blockquote>
+  </div>
+</div>
+</section>
+
+</article>
+</main>
+
+<footer>
+  <div class="wrap">
+    Agentic BI 总结 · 结合 Anthropic / Claude 自助数据分析实践 · 文中生产数据仅代表 Anthropic 的应用经验
+  </div>
+</footer>
+
+<script>
+const progress = document.querySelector('.progress')
+window.addEventListener('scroll', () => {
+  const height = document.documentElement.scrollHeight - innerHeight
+  progress.style.width = (height ? scrollY / height * 100 : 0) + '%'
+}, {passive: true})
+
+// Scroll reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis') })
+}, {threshold: 0.08})
+document.querySelectorAll('.rev').forEach(el => obs.observe(el))
+
+// Animate budget bars on scroll
+const budgetObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      e.target.querySelectorAll('.bfill').forEach(bar => {
+        bar.style.width = bar.style.width
+      })
+    }
+  })
+}, {threshold: 0.3})
+document.querySelectorAll('.budget').forEach(el => budgetObs.observe(el))
+
+// Nav active state
+const sections = document.querySelectorAll('section[id]')
+const navLinks = document.querySelectorAll('nav a')
+window.addEventListener('scroll', () => {
+  let cur = ''
+  sections.forEach(s => { if(window.scrollY >= s.offsetTop - 120) cur = s.id })
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#'+cur ? 'var(--amber)' : ''
+  })
+}, {passive: true})
+</script>
+</body>
+</html>
